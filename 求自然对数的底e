@@ -1,0 +1,32 @@
+//factorial   阶乘
+public class Java练习{
+//1.递归方法求阶乘
+    /* public static long factorial(int n){
+	    if(n==0||n==1)
+		{
+			return 1;
+		}else{
+			return n*factorial(n-1);
+		}
+	}	 */
+//2.迭代方法求阶乘(0!=1)
+    public static long factorial2(int n){
+		int r=1;
+		for(int i=1;i<=n;i++){//i必须从1开始，若从0开始，则第一个数的阶乘无法计算，导致后面的也无法计算
+			r*=i;
+		}
+		return r;
+	}
+	public static double program(int n){
+		double e=0;
+		for(int i=0;i<n;i++)
+		{
+			//e+=(1.0/factorial(i));
+			e+=(1.0/factorial2(i));//r在这个函数中未定义，所以要调用函数	
+		}
+		return e;
+	} 
+	public static void main(String[] args){
+		System.out.printf("e=%f%n",program(5));  //想算几项就把5换成几
+	}
+} 

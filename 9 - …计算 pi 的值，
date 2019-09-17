@@ -1,0 +1,20 @@
+public class Java练习{
+    public static double jiSuanPi(int n){
+		double pi4=0;
+		for(int i=0;i<=n;i++)
+		{
+			int fenmu=i*2+1;
+			double dest=1.0/fenmu;
+			if(i%2==0)
+			{
+				pi4+=dest;
+			}else{
+				pi4-=dest;
+			}
+		}
+		return pi4*4;
+	}
+	public static void main(String[] args){
+		System.out.printf("pi=%f%n",jiSuanPi(5));//5的值可以改直到和3.14接近为止
+	}
+}

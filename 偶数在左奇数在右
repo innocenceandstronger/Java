@@ -1,0 +1,44 @@
+import java.util.Arrays;
+public class Test0921 {
+    public static void swap(int[] a,int i,int j){
+        int t=a[i];
+        a[i]=a[j];
+        a[j]=t;
+    }
+    //第一种方法
+    public static int[] partition(int[] a){
+        //begin和end相当于是两个指针
+        //[begin,end]区间内的是未判断的数
+        //[0,begin)    偶数
+        //[end,a.length)   奇数
+        int begin=0;
+        int end=a.length-1;
+        while(begin<end){
+            while(begin<end&&a[begin]%2==0){
+                begin++;
+            }
+            while(begin<end&&a[end]%2!=0){
+                end--;
+            }
+            swap(a,begin,end);
+            //这里的交换之所以不用a[begin],a[end]，而是begin,end是因为调用的是swap函数,swap函数的形参是下标，第二个方法同理
+        }
+        return a;
+    }
+    //第二种方法
+    public static int[] partition1(int[] a){
+        int d=0;
+        for(int i=0;i<a.length;i++) {
+            if (a[i] % 2 == 0) {
+                swap(a, i, d);
+                d++;
+            }
+        }
+        return a;
+    }
+    public static void main(String[] args){
+        int[] a={3,6,2,7,4,1,5,9};
+        System.out.println(Arrays.toString(partition(a)));
+        System.out.println(Arrays.toString(partition1(a)));
+    }
+}

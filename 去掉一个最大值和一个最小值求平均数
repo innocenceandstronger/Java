@@ -1,0 +1,22 @@
+public class Test0921 {
+    //去掉一个最大值和一个最小值求平均数
+    public static double average(int[] a){
+        int sum=0;
+        int max=Integer.MIN_VALUE;
+        int min=Integer.MAX_VALUE;
+        for(int v:a){
+            sum+=v;
+            if(v>max){
+                max=v;
+            }
+            if(v<min){
+                min=v;
+            }
+        }
+        return (double)(sum-max-min)/(a.length-2);
+    }
+    public static void main(String[] args){
+        int[] a={7,6,5,4,3,2,1};
+        System.out.println(average(a));
+    }
+}

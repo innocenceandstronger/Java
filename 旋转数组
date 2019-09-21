@@ -1,0 +1,18 @@
+import java.util.Arrays;
+public class Test0921 {
+//旋转数组，旋转开始的位置从它自身算起(右旋)
+    public static int[] rotate(int[] a,int k){
+        k=k%a.length;  //若旋转的数超过数组长度，则取余，因为旋转数组长度个数还是原来的数组
+        int[] rightPart=Arrays.copyOfRange(a,a.length-k,a.length);
+        System.out.println(Arrays.toString(rightPart));
+        System.arraycopy(a,0,a,k,a.length-k);
+        System.out.println(Arrays.toString(a));
+        System.arraycopy(rightPart,0,a,0,k);
+        return a;
+    }
+    public static void main(String[] args) {
+        int[] a = {1, 2, 3, 4, 5, 6, 7};
+        System.out.println(Arrays.toString(rotate(a, 3)));
+        System.out.println(Arrays.toString(rotate(a, 14)));
+    }
+}

@@ -1,0 +1,14 @@
+import java.util.Scanner;
+public class Test1002 {       //求圆柱体的体积
+    public static void main(String[] args){
+        System.out.print("Enter the radius and length of a cylinder:");
+        double a=3.14;
+        Scanner input=new Scanner(System.in);
+        Double radius=input.nextDouble();
+        double area=radius*radius*a;
+        System.out.println("The area is"+area);
+        Double length=input.nextDouble();
+        double volume=area*length;
+        System.out.println("The volume is"+volume);
+    }
+}

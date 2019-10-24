@@ -1,0 +1,14 @@
+class Person{  //定义在非主类中的构造块
+    {
+        System.out.println("1.Person类的构造块");
+    }
+    public Person(){
+        System.out.println("2.Person类的构造方法");
+    }
+}
+public class Excipise{
+    public static void main(String[] args){
+        new Person();
+        new Person();
+    }
+}    //结果可发现构造块优先于构造方法执行

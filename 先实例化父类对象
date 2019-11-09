@@ -1,0 +1,16 @@
+class Person{
+    public Person(){
+        System.out.println("Person类对象产生");
+    }
+}
+class Student extends Person{
+    public Student(){
+        super();
+        System.out.println("Studnt类对象产生");
+    }
+}
+public class Excipise1109{
+    public static void main(String[] args){
+        Student s=new Student();
+        new Student();
+    }

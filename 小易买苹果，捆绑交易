@@ -1,0 +1,28 @@
+import java.util.Scanner;
+public class Override {
+    static int h=0;
+    public static void main(String[] args){
+        Scanner scanner=new Scanner(System.in);
+        int n=scanner.nextInt();
+        int b=rev(n);
+        System.out.println(b);
+    }
+    public static int rev(int n){
+        int x=0;
+        if(n>=6){
+            if(n>=8){
+                h++;
+                rev(n-8);
+                h--;
+            }
+            h++;
+            rev(n-6);
+            h--;
+        }
+        if(n==0){
+            System.out.print(h+"\n");
+            System.exit(0);
+        }
+        return -1;
+    }
+}

@@ -1,0 +1,20 @@
+import java.util.Scanner;
+public class Excipise1112{
+    public static int lastCommonMultiple(int a,int b) {
+        int m=a,n=b;
+        int t=m%n;
+        while(t!=0){
+            m=n;
+            n=t;
+            t=m%n;
+        }
+        int l=a*b/n;
+        return l;
+    }
+    public static void main(String[] args){
+        Scanner input=new Scanner(System.in);
+        int a=input.nextInt();
+        int b=input.nextInt();
+        System.out.println(lastCommonMultiple(a,b));
+    }
+}

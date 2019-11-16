@@ -1,0 +1,183 @@
+public class Main{
+    private int[] array;
+    private int size;
+
+    public Main(){   //构造方法，初始化！(构造方法：修饰符+类名称)
+        array=new int[20];  //申请空间
+        size=0;    //初始化个数
+    }
+//--------------------------------------------------------------------------------------------------
+    //增
+    public void pushFront(int element){  //头插
+        ensureCapacity();
+        for(int i=size-1;i>=0;i--){
+            array[i+1]=array[i];
+        }
+        array[0]=element;
+        size++;
+    }
+    public void pushBack(int element){   //尾插
+        ensureCapacity();
+        array[size++]=element;
+    }
+    public void insert(int index,int element){  //中间插
+        if(index<0||index>size){
+            System.out.println("下标错误！");
+            return;
+        }
+        ensureCapacity();
+        for(int i=size;i>=index+1;i--){
+            array[i]=array[i-1];
+        }
+        array[index]=element;
+        size++;
+    }
+    public void ensureCapacity(){   //扩容：数组空间或许不够，需要扩至1.5~2倍
+        if(size<array.length){
+            return;
+        }
+        int newCapacity=array.length*2;
+        int[] newArray=new int[newCapacity]; //创建一个新数组
+        for(int i=0;i<newCapacity;i++){
+            newArray[i]=array[i];  //将以前数组的值移到新数组
+        }
+        array=newArray;
+    }
+//----------------------------------------------------------------------------------------------------------
+    //删(不需要比原来还大的空间)
+    public void popFront(int element){  //头删
+        if(size<=0){
+            System.out.println("顺序表为空！！！");
+            return;
+        }
+        for(int i=1;i<size;i++){
+            array[i-1]=array[i];
+        }
+        array[--size]=0;
+    }
+    public void popBack(int element){    //尾删
+        if(size<=0){
+            System.out.println("顺序表为空！！！");
+            return;
+        }
+        array[--size]=0;
+    }
+    public void deleteNumber(int index){  //根据下标删除
+        if(size<=0){
+            System.out.println("顺序表为空！！！");
+            return;
+        }
+        if(index>size||index<0){
+            System.out.println("下标错误！");
+            return;
+        }
+        for(int i=index+1;i<size;i++){
+            array[i-1]=array[i];
+        }
+        array[--size]=0;
+    }
+//-----------------------------------------------------------------------------------------------
+    //查
+    public int indexOfNumber(int element){   //返回该数据的下标,若出现多次，则返回的是第一次出现的下标
+        for(int i=0;i<array.length;i++){
+            if(array[i]==element){
+                return i;
+            }
+        }
+        return -1;
+    }
+    public int get(int index){    //返回的是那个下标所对应的值
+        if(index<0||index>=size){
+            System.out.println("下标错误！");
+            return -1;
+        }
+        return array[index];
+    }
+//---------------------------------------------------------------------------------------
+    //修改
+    public void revise(int index,int element){
+        if(index<0||index>size){
+            System.out.println("下标错误！");
+            return;
+        }
+        array[index]=element;
+    }
+//--------------------------------------------------------------------------------------
+    //移除
+    public void remove(int element){  //移除第一次出现的数据
+        int index=indexOfNumber(element);     //用查找方法找到需要删除的数的下标
+        if(index!=-1){         //index!=-1表示该数的下标存在
+            deleteNumber(index);      //再用根据下标删除的方法，删除该数
+        }
+    }
+    public void removeAll(int element){  //移除表中所有出现的这个数据
+        /*①
+        int index;
+        while((index=indexOfNumber(element))!=-1){   //说明还能找到相同的数
+            deleteNumber(element);   /再用根据下标删除的方法，删除该数
+        }
+        */
+        /*②
+        int[] newArray=new int[array.length];  //重新创建一个数组
+        int j=0;     //新数组的下标
+        for(int i=0;i<size;i++){
+            if(array[i]!=element){   //遍历查找数组中与要删除元素不相同的数
+                newArray[j++]=array[i];  //将与element不同的数放进新数组
+            }
+        }
+        array=newArray;    //让新数组等同于之前的数组
+        size=j;   //新数组的size就是j
+        */
+        int j=0;
+        for(int i=0;i<size;i++){   //i和j同时遍历
+            if(array[i]!=element){   //若下标为i和j的数等于element,则i++，j停留
+                array[j++]=array[i];  //然后将i所指的数，赋给下标为j的数，然后，i++，j++
+            }
+        }
+        size=j;
+    }
+//----------------------------------------------------------------------------------------
+    public void print(){    //打印
+        System.out.println("打印当前顺序表：当前容量："+array.length);
+        for(int i=0;i<size;i++){
+            System.out.println(array[i]+" ");
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args){
+        Main list=new Main();
+        list.print();
+
+        list.pushBack(1);
+        list.pushBack(2);
+        list.pushBack(3);
+        list.print();    //1 2 3
+
+        list.pushFront(10);
+        list.pushFront(20);
+        list.pushFront(30);
+        list.print();    //30 20 10 1 2 3
+
+        list.insert(3,100);
+        list.insert(-1,90);
+        list.print();  //30 20 10 100 1 2 3
+
+        list.popFront(30);
+        list.popBack(3);
+        list.deleteNumber(2);
+        list.deleteNumber(22);
+        list.print();    //20 10 1 2
+
+        list.indexOfNumber(10);
+        list.get(3);
+        list.revise(0,67);
+        list.revise(20,9);
+        list.print();     //67 10 1 2
+
+        list.remove(10);
+        list.insert(2,67);
+        list.removeAll(67);
+        list.print();    //1 2
+    }
+}

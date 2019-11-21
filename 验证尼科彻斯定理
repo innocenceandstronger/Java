@@ -1,0 +1,21 @@
+import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class Excipise{
+    public static void main(String[] args) throws IOException{
+        InputStreamReader isr=new InputStreamReader(System.in);
+        BufferedReader bf=new BufferedReader(isr);
+        String s;
+        while((s=bf.readLine())!=null){
+            int m=Integer.valueOf(s);
+            int head=m*(m-1)+1;
+            System.out.print(head);
+            for(int i=1;i<m;i++){
+                System.out.print("+"+(head+=2));
+            }
+            System.out.println();
+        }
+        bf.close();
+    }
+}

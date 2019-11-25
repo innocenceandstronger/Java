@@ -1,0 +1,45 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+import java.util.Stack;
+
+public class Excipise {
+    static Stack<String> s1=new Stack<String>();
+    static Stack<String> s2=new Stack<String>();
+    static List<String> list=new ArrayList<String>();
+    public static void train(String m){
+        while(s1.isEmpty()&&s2.isEmpty()){
+            list.add(m.trim());
+            return;
+        }
+        if(!s2.isEmpty()){
+            String mm=s2.pop();
+            train(m+" "+mm);
+            s2.push(mm);
+        }
+        if(!s1.isEmpty()){
+            String mm=s1.pop();
+            s2.push(mm);
+            train(m);
+            s2.pop();
+            s1.add(mm);
+        }
+    }
+    public static void main(String[] args){
+        Scanner input=new Scanner(System.in);
+        while(input.hasNext()){
+            int N=Integer.parseInt(input.nextLine());
+            String s11=input.nextLine();
+            String a[]=s11.split(" ");
+            for(int i=a.length-1;i>=0;i--){
+                s1.push(a[i]);
+            }
+            train(" ");
+            Collections.sort(list);
+            for(String h:list){
+                System.out.println(h);
+            }
+        }
+    }
+}

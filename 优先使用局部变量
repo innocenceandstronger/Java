@@ -1,0 +1,11 @@
+public class Excipise{
+    public String str="6";
+    public static void main(String[] args){
+        Excipise sv=new Excipise();
+        sv.change(sv.str);
+        System.out.println(sv.str);
+    }
+    public void change(String str){
+        str="10";
+    }
+}

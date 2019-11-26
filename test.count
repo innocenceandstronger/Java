@@ -1,0 +1,11 @@
+public class Excipise{
+    private int count;
+    public static void main(String[] args){
+        Excipise test=new Excipise(88);
+        System.out.println(test.count);
+    }
+    Excipise(int a)
+    {
+        count=a;
+    }
+}

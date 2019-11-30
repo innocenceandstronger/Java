@@ -1,0 +1,21 @@
+import java.util.Scanner;
+public class Main{
+    public static int getTotalCount(int monthCount){
+        assert(monthCount>=1);
+        int firstDay=1;
+        int secondDay=1;
+        int totalCount=1;
+        while((monthCount>2)&&(monthCount<13)){
+            totalCount=firstDay+secondDay;
+            firstDay=secondDay;
+            secondDay=totalCount;
+            monthCount--;
+        }
+        return totalCount;
+    }
+    public static void main(String[] args){
+        Scanner input=new Scanner(System.in);
+        int monthCount=input.nextInt();
+        System.out.println(getTotalCount(monthCount));
+    }
+}

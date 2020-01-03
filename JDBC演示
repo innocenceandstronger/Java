@@ -1,0 +1,49 @@
+//import com.mysql.jdbc.Driver;
+import java.sql.*;
+
+// Connection       MySQL 的网络连接
+// Statement        MySQL 语句
+public class Main {
+    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+        // 1. 注册驱动(利用 java 语言中的发射
+        Class.forName("com.mysql.jdbc.Driver");
+        // 2. 通过 DriverManager 获取连接
+        // 连接的地址
+        // CMD 中先建立库：CREATE DATABASE java11_12_06;
+        String url = "jdbc:mysql://127.0.0.1:3306/java11_12_06?useSSL=false";
+        String username = "root";
+        String password = "";
+        Connection connection = DriverManager.getConnection(url,
+                username, password
+                );
+        Statement statement = connection.createStatement();
+        // statement.executeQuery(sql);     SELECT/SHOW
+        // statement.executeUpdate(sql)     INSERT/DELETE/UPDATE/DROP/CREATE
+
+        /**
+         * 在 CMD 中建一个表，插入一些数据
+         * CREATE TABLE students (
+         *      id INT,
+         *      name VARCHAR(20)
+         * );
+         * INSERT INTO students (id, name) VALUES (1, "陈沛鑫");
+         */
+        ResultSet resultSet = statement.executeQuery("SELECT id, name FROM students");
+        // next 必须首先调用一次
+        while (resultSet.next()) {
+            // 列的下标是从 1 开始的
+            int id = resultSet.getInt(1);
+            String name = resultSet.getString(2);
+            System.out.printf("%d|%s%n", id, name);
+        }
+
+        //System.out.println(connection);
+        // -3. 关闭 ResultSet
+        resultSet.close();
+
+        // -2. 记得关闭 statement
+        statement.close();
+        // -1. 最后记得关闭连接
+        connection.close();
+    }
+}

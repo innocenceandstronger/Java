@@ -1,0 +1,34 @@
+import java.util.ArrayList;
+
+public class Solution {
+	public ListNode FindKthToTail(ListNode head, int k) {
+		 
+		ListNode a = null;
+		ListNode b = null;
+		
+		// 两个指针都指向头结点
+		a = head;
+		b = head;
+		
+		// 记录k值
+		int c = k;
+		
+		// 记录节点的个数
+		int count = 0;
+		
+		// a指针先跑，并且记录节点数，当a指针跑了k-1个节点后，b指针开始跑，
+		// 当a指针跑到最后时，b所指指针就是倒数第k个节点
+		while (a != null) {
+			a = a.next;
+			count++;
+			if (k < 1) {
+				b = b.next;
+			}
+			k--;
+		}
+		// 如果节点个数小于所求的倒数第k个节点，则返回空
+		if (count < c)
+			return null;
+		return b;
+	}
+}

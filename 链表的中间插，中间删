@@ -1,0 +1,12 @@
+private static void pushAfter(Node pos, int val) {
+        Node node = new Node(val); //把要插入的数据装到结点
+
+        Node next=pos.next;
+        pos.next=node;
+        node.next=next;
+    }
+
+    private static void popAfter(Node pos)
+    {
+        pos.next = pos.next.next;
+    }

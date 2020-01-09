@@ -1,0 +1,43 @@
+import java.util.ArrayList;
+
+public class MyQueue {
+    private ArrayList<Integer> in;//申请入的栈
+    private ArrayList<Integer> out;//申请出的栈
+
+    public MyQueue() {
+        in = new ArrayList<Integer>();//在队列的构造方法里对栈进行构造
+        out = new ArrayList<Integer>();
+    }
+//这里栈用的是顺序表实现的
+    public void push(int x) {
+        in.add(x);//尾插
+    }
+
+    public int pop() {
+        if (out.isEmpty()) {//如果出的栈是空的，则把入的栈中的元素导进出的栈
+            int size = in.size();//让出的栈的size=入的栈的size
+            for (int i = 0; i < size; i++) {
+                int v = in.remove(in.size() - 1);//用倒序的方法把in插入out
+                out.add(v);
+            }
+        }
+
+        return out.remove(out.size() - 1);//返回的就是out里的元素
+    }
+
+    public int peek() {
+        if (out.isEmpty()) {
+            int size = in.size();
+            for (int i = 0; i < size; i++) {
+                int v = in.remove(in.size() - 1);
+                out.add(v);
+            }
+        }
+
+        return out.get(out.size() - 1);//获取最后一个元素
+    }
+
+    public boolean empty() {//判断是否为空
+        return in.isEmpty() && out.isEmpty();//两个栈都为空，才能判断为空
+    }
+}

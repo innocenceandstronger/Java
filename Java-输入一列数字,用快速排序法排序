@@ -1,0 +1,61 @@
+import java.util.*;
+public class Program_kuaipai 
+{
+	
+	public static void main(String[] args) 
+	{
+		String str = "12 34 1 -5 9 100 55 0";
+		String[] numStrs = str.split(" ");
+		int[] numArray = new int[numStrs.length];
+		for(int i=0;i<numStrs.length;i++)
+		{
+			numArray[i] = Integer.valueOf(numStrs[i]);
+		}
+		quickSort(numArray);//快速排序
+		/*for(int i=0;i<numStrs.length;i++)
+		{
+			System.out.println(numArray[i]);
+		}*///用for循环输出整形数组
+		System.out.println(Arrays.toString(numArray));//用Arrays.toString()输出
+	}
+	public static void quickSort(int[] numArray)
+	{
+		if(numArray.length>0) 
+		{
+			quickSort(numArray,0,numArray.length-1);
+		}
+	}
+	private static void quickSort(int[] numArray,int left,int right)
+	{
+		if(left>right)
+		{
+			return;
+		}
+		int i=left;
+		int j=right;
+		int sentry=numArray[left];//找一个“哨兵”
+		//int sentry=numArray[(i+j)/2];
+		while(i<j)
+		{
+			while(i<j&&numArray[j]>sentry)//从右向左找一个比“哨兵”小的值
+			{
+				j--;
+			}
+			while(i<j&&numArray[i]<=sentry)//从左向右找一个比“哨兵”大的值
+			{
+				i++;
+			}
+			if(i<j)//将两个值交换位置
+			{
+				int mid=numArray[i];
+				numArray[i]=numArray[j];
+				numArray[j]=mid;
+			}
+		}
+		int mid=numArray[i];
+		numArray[i]=numArray[left];
+		numArray[left]=mid;//改变“哨兵”的位置
+		quickSort(numArray, left, i-1 );//递归，将左部分再次进行快排
+		quickSort(numArray, i+1, right );//递归，将右部分再次进行快排
+	}
+}

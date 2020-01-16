@@ -1,0 +1,51 @@
+import java.util.*;
+
+/*
+public class ListNode {
+    int val;
+    ListNode next = null;
+
+    ListNode(int val) {
+        this.val = val;
+    }
+}*/
+public class Partition {
+    public ListNode partition(ListNode pHead, int x) {
+        // write code here
+        ListNode less = null;//这是小于x的元素所在的链表
+        ListNode lessLast = null;//小于x的链表的最后一个结点
+        
+        ListNode great = null;//这是大于等于x的元素所在的链表
+        ListNode greatLast = null;//大于等于x的链表的最后一个结点
+        
+        ListNode cur = pHead;//从原链表的头结点开始遍历
+        while (cur != null) {
+            if (cur.val < x) {//当原链表中的元素小于x时
+                if(less == null) {//当小于x的链表为空时
+                    less = cur;
+                }else{//当小于x的链表不为空时
+                    lessLast.next = cur;
+                }
+                lessLast = cur;//相当于让lessLast也往后走了一步
+            }else{//当原链表中的元素大于等于x时
+                if(great == null) {
+                    great = cur;
+                }else{
+                    greatLast.next = cur;
+                }
+                greatLast = cur;
+            }
+            cur = cur.next;
+        }
+        //或许会有一个空链表
+        if(less == null) {
+            return great;
+        }else{
+            lessLast.next = great;
+            if(greatLast != null){
+                greatLast.next = null;
+            }
+            return less;
+        }
+    }
+}

@@ -1,0 +1,20 @@
+/**
+     * 判断单链表中是否有环
+     * 借助HashSet来判断。
+     *
+     * @param head
+     * @return
+     */
+    public boolean hasCycleByHashSet(SingleNode head) {
+        Set<SingleNode> set = new HashSet<>();
+        SingleNode node = head;
+        while (node != null) {
+            if (set.contains(node)) {
+                return true;
+            } else {
+                set.add(node);
+            }
+            node = node.next;
+        }
+        return false;
+    }

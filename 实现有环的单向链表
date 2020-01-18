@@ -1,0 +1,25 @@
+public boolean add(SingleNode node) {
+        if (first == null) {
+            first = node;
+        } else {
+            SingleNode last = get(getSize() - 1);
+            last.next = node;
+        }
+        size++;
+        return true;
+    }
+
+    /**
+     * 末尾添加一个特殊结点，形成一个环，为了测试用。
+     *
+     * @param node 这个node的next指向单项链表中已经存在的结点。
+     * @return
+     */
+    public boolean addCycleNode(SingleNode node) {
+        if (getSize() < 2) {
+            return false;
+        }
+        SingleNode last = get(getSize() - 1);
+        last.next = node;
+        return true;
+    }

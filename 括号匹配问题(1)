@@ -1,0 +1,50 @@
+class Solution {
+    public boolean isValid(String s) {
+        ArrayList<Character> stack = new ArrayList<>();//申请栈
+
+
+        for (int i = 0; i < s.length(); i++) {  //遍历所有字符串
+            char c = s.charAt(i);//取出来
+
+
+            //判断左、右括号
+            switch (c) {//左括号压栈
+                case '(':
+                case '[':
+                case '{':
+                    stack.add(c);
+                    break;
+
+
+                case ')':    //右括号出栈
+                case ']':
+                case '}': {
+                    if (stack.isEmpty()) {
+                        return false;
+                    }
+                    char left = stack.remove(stack.size() - 1);
+                    if (!((left == '(' && c == ')')   //left是左括号， c是右括号
+                        || (left == '[' && c == ']')
+                        || (left == '{' && c == '}'))) {
+                            //第一个大括号里面是满足的情况，加上非，就是不满足的
+                             //即不匹配，返回false
+                        return false;
+                    }
+                    break;
+                }
+
+
+                default:
+                    break;
+            }
+        }
+
+
+        //所有程序走完了(遍历完了)，判断栈内是否还有元素
+        if (stack.isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}

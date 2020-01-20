@@ -1,0 +1,39 @@
+import java.util.Arrays;
+public class Stack{
+    private int[] array;
+    private int top;
+    public Stack(int defaultCapacity){
+        array=new int[defaultCapacity];//defaultCapacity:栈元素的大小
+        top=0;
+    }
+    public Stack(){
+        this(20);//默认的栈的大小
+    }
+    public void push(int val){
+        if(top==array.length){
+            array=Arrays.copyOf(array,array.length*2);//扩容;array:是原来的array,array.length*2:新的长度
+        }
+        array[top++]=val;
+    }
+    public void pop(){
+        if(top<=0){
+            System.out.println("栈为空，无法删除");
+            return;
+        }
+        top--;
+        array[top]=0;//可加可不加，把所有空的位置保持为0；
+    }
+    public void top(){
+        if(top<=0){
+            System.out.println("栈为空，无法返回栈顶元素");
+            return -1;
+        }
+        return array[top-1];
+    }
+    public int size(){//虽然是从0开始计数的，但返回的top就是栈的元素个数
+        return top;
+    }
+    public boolean isEmpty(){//布尔类型的默认值是true或false，所以判断就好
+        return top==0;//为空返回的就是true,不为空返回的就是false.
+    }
+}        

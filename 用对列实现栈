@@ -1,0 +1,42 @@
+import java.util.LinkedList;
+
+class MyStack {
+    private LinkedList<Integer> queue;//表示它是一个队列
+
+   
+    public MyStack() {//栈的构造方法中，对队列进行构造
+        queue = new LinkedList<>();
+    }
+    public void push(int x) {//压栈
+        queue.addLast(x);//入队列，用addLast()把x放在(链表)队列的末尾
+    }
+
+    public int pop() {//出栈，
+        int size = queue.size();
+        for (int i = 0; i < size - 1; i++) {//相当于让A,B从队列中循环到尾部，便于C出栈
+            int v = queue.pollFirst();//pollFirst()返回队列第一个元素“A”
+            queue.addLast(v);//再将该元素插进去“BCA”
+        }
+
+        return queue.pollFirst();//返回当前链表的第一个元素
+    }
+
+//返回栈顶元素
+    public int top() {
+        int size = queue.size();
+        for (int i = 0; i < size - 1; i++) {//相当于让A,B从队列中循环到尾部，便于C出栈
+            int v = queue.pollFirst();//pollFirst()返回队列第一个元素“A”
+            queue.addLast(v);再将该元素插进去“BCA”
+        }
+
+        int v = queue.pollFirst();//返回当前链表的第一个元素
+        queue.addLast(v);//就瞅一眼！并不删除，所以还要再插回去
+        return v;//获取栈顶元素
+    }
+
+//判断栈是否为空
+    public boolean empty() {
+        return queue.isEmpty();//如果队列是空的，栈一定是空的
+    }
+}
+

@@ -1,0 +1,50 @@
+import java.util.ArrayList;
+class MyQueue {
+    private ArrayList<Integer> in;//申请入的栈
+    private ArrayList<Integer> out;//申请出的栈
+    /** Initialize your data structure here. */
+    public MyQueue() {
+        in = new ArrayList<Integer>();//在队列的构造方法里对栈进行构造
+        out = new ArrayList<Integer>();
+    }
+     //这里栈用的是顺序表实现的  
+    /** Push element x to the back of queue. */
+    public void push(int x) {
+        in.add(x);//尾插
+    }   
+    /** Removes the element from in front of queue and returns that element. */
+    public int pop() {
+         if (out.isEmpty()) {//如果出的栈是空的，则把入的栈中的元素导进出的栈
+            int size = in.size();//让出的栈的size=入的栈的size
+            for (int i = 0; i < size; i++) {
+                int v = in.remove(in.size() - 1);//用倒序的方法把in插入out
+                out.add(v);
+            }
+        }
+        return out.remove(out.size() - 1);//返回的就是out里的元素
+    }
+    
+    /** Get the front element. */
+    public int peek() {
+        if (out.isEmpty()) {
+            int size = in.size();
+            for (int i = 0; i < size; i++) {
+                int v = in.remove(in.size() - 1);
+                out.add(v);
+            }
+        }
+        return out.get(out.size() - 1);//获取最后一个元素
+    }
+    /** Returns whether the queue is empty. */
+    public boolean empty() {
+         return in.isEmpty() && out.isEmpty();//两个栈都为空，才能判断为空
+    }
+}
+/**
+ * Your MyQueue object will be instantiated and called as such:
+ * MyQueue obj = new MyQueue();
+ * obj.push(x);
+ * int param_2 = obj.pop();
+ * int param_3 = obj.peek();
+ * boolean param_4 = obj.empty();
+ */

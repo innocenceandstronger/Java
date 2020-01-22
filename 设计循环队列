@@ -1,0 +1,71 @@
+//数组中实现对列
+class MyCircularQueue {
+    private int[] array;//存储空间
+    private int size;//当前数据个数
+    private int front;//指向队首下标
+    private int rear;//指向队尾下一个可用空间
+    /** Initialize your data structure here. Set the size of the queue to be k. */
+    public MyCircularQueue(int k) {//容量
+        array = new int[k];
+        size = 0;
+        front = 0;
+        rear = 0;
+    }
+    /** Insert an element into the circular queue. Return true if the operation is successful. */
+    public boolean enQueue(int value) {//插入成功返回true
+        if (size == array.length) {//满了不成功
+            return false;
+        }
+
+        array[rear] = value;//代表一个值
+        rear = (rear + 1) % array.length;
+        size++;
+        /*=array[size]=val;size++;
+           if(size==array.length){size=0;}
+        */
+
+        return true;
+    }    
+    /** Delete an element from the circular queue. Return true if the operation is successful. */
+    public boolean deQueue() {
+        if (size == 0) {
+            return false;
+        }
+        front = (front + 1) % array.length;//出队列front往后走一个
+        size--;
+        return true;
+    }    
+    /** Get the front item from the queue. */
+    public int Front() {//返回队首元素
+        if (size == 0) {
+            return -1;
+        }
+        return array[front];
+    }    
+    /** Get the last item from the queue. */
+    public int Rear() {//返回队尾元素
+        if (size == 0) {
+            return -1;
+        }
+        int index = (rear + array.length - 1) % array.length;
+        return array[index];
+    }   
+    /** Checks whether the circular queue is empty or not. */
+    public boolean isEmpty() {//判断是否为空
+         return size == 0;//size=0一定为空；size有值不为空
+    }    
+    /** Checks whether the circular queue is full or not. */
+    public boolean isFull() {//判断队列是否已满
+        return size == array.length;//已满
+    }
+}
+/**
+ * Your MyCircularQueue object will be instantiated and called as such:
+ * MyCircularQueue obj = new MyCircularQueue(k);
+ * boolean param_1 = obj.enQueue(value);
+ * boolean param_2 = obj.deQueue();
+ * int param_3 = obj.Front();
+ * int param_4 = obj.Rear();
+ * boolean param_5 = obj.isEmpty();
+ * boolean param_6 = obj.isFull();
+ */

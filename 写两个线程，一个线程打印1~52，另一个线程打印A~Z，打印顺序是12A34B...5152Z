@@ -1,0 +1,77 @@
+// 写一个类，分别打印字母和数字
+// 两个方法通过flag来控制打印
+private static class MyObject{
+	private static boolean flag = true;
+	private int count = 0;
+	// 写数字
+	public synchronized void printNum(){
+	
+		for (int i = 0; i < 52; i++) {
+			
+			// 默认为true，所以让其先打印
+			if(!flag){
+				try {
+					this.wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			System.out.print(++count);
+			System.out.print(++count);
+			
+			// 唤醒printChar
+			flag = !flag;
+			this.notifyAll();
+		}
+	}
+	
+	// 写字母
+	public synchronized void printChar(){
+		
+		for (int i = 0; i < 26; i++) {
+			
+			// 默认为true，所以让其后打印
+			if(flag){
+				try {
+					this.wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			System.out.print((char)(65+i));
+			
+			// 唤醒printNum
+			flag = !flag;
+			this.notifyAll();
+		}
+		
+	}
+}
+ 
+ 
+// 执行main方法
+public class Test {
+ 
+	public static void main(String[] args) {
+		
+		// 1.写两个线程，一个线程打印1~52，另一个线程打印A~Z，打印顺序是12A34B...5152Z
+		MyObject m = new MyObject();
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				m.printNum();
+			}
+		}).start();
+		
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				m.printChar();
+			}
+		}).start();
+    }
+}

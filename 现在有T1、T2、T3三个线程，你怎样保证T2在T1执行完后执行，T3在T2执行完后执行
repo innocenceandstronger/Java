@@ -1,0 +1,39 @@
+// 创建线程对象，执行打印方法	
+private static class ForthObject extends Thread{
+ 
+	public ForthObject(String name){
+        super(name);
+    }
+    @Override
+    public void run(){
+        for(int i=0;i<5;i++){
+            System.out.println(this.getName() + ":" + i);
+        }
+    }
+}
+ 
+// 主线程中使用
+public class Test {
+ 
+	public static void main(String[] args) {
+		
+		// 现在有T1、T2、T3三个线程，你怎样保证T2在T1执行完后执行，T3在T2执行完后执行？
+		ForthObject p1 = new ForthObject("1");
+		ForthObject p2 = new ForthObject("2");
+		ForthObject p3 = new ForthObject("3");
+		
+		try {
+			//
+			p1.start();
+			p1.join();
+			p2.start();
+			p2.join();
+			p3.start();
+			p3.join();
+			
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}

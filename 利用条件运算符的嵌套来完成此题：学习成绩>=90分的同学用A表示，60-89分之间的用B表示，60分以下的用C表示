@@ -1,0 +1,17 @@
+package com.aura.mazh.interview50;
+ 
+import java.util.Scanner;
+ 
+public class Interview05 {
+    public static void main(String[] args) {
+ 
+        System.out.println("请输入你的分数：");
+        Scanner scanner = new Scanner(System.in);
+        int input = scanner.nextInt();//获取输入
+ 
+        //等级判断
+        String belong = input >= 90 ? "A" : (input >= 60 ? "B" : "c");
+        System.out.println(input + "分属于：" + belong);
+        scanner.close();
+    }
+}

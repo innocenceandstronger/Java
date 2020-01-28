@@ -1,0 +1,23 @@
+package com.aura.mazh.interview50;
+ 
+/**
+ * @Auther: 马中华 ： https://blog.csdn.net/zhongqi2513
+ * @Date: 2019/6/16 07:19
+ * @Description:
+ */
+public class Interview09 {
+    public static void main(String[] args) {
+        System.out.println("1000以内的因数有：");
+        for (int i = 1; i <= 1000; i++) {
+            int sum = 0;//所有因数的总和
+            for (int j = 1; j < i / 2 + 1; j++) {
+                if (i % j == 0) {//判断范围内的所有j相加，就是因数总和
+                    sum = sum + j;
+                    if (i == sum) {
+                        System.out.print(i + "  ");
+                    }
+                }
+            }
+        }
+    }
+}

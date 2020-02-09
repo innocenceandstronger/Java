@@ -1,0 +1,17 @@
+class Solution {
+    public String toLowerCase(String str) {
+        if(str==null){
+            return null;
+        }
+        char[] array=new char[str.length()];
+        for(int i=0;i<str.length();i++){
+            if(str.charAt(i)>=65&&str.charAt(i)<=90){
+                char newChar=(char)(str.charAt(i)+32);
+                array[i]=newChar;
+            }else{
+                array[i]=(char)str.charAt(i);
+            }
+        }
+        return new String(array);
+    }
+}

@@ -1,0 +1,100 @@
+1.创建Server Socket并监听客户连接：
+public class EchoServer {
+
+    private final ServerSocket mServerSocket;
+
+    public EchoServer(int port) throws IOException {
+        // 1. 创建一个 ServerSocket 并监听端口 port
+        mServerSocket = new ServerSocket(port);
+    }
+
+    public void run() throws IOException {
+        // 2. 开始接受客户连接
+        Socket client = mServerSocket.accept();
+        handleClient(client);
+    }
+
+    private void handleClient(Socket socket) {
+        // 3. 使用 socket 进行通信 ...
+    }
+
+
+    public static void main(String[] argv) {
+        try {
+            EchoServer server = new EchoServer(9877);
+            server.run();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+2.使用Socket连接服务端：
+public class EchoClient {
+
+    private final Socket mSocket;
+
+    public EchoClient(String host, int port) throws IOException {
+        // 创建 socket 并连接服务器
+        mSocket = new Socket(host, port);
+    }
+
+    public void run() {
+        // 和服务端进行通信
+    }
+
+
+    public static void main(String[] argv) {
+        try {
+            // 由于服务端运行在同一主机，这里我们使用 localhost
+            EchoClient client = new EchoClient("localhost", 9877);
+            client.run();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+3.通过 socket.getInputStream()/getOutputStream() 获取输入/输出流进行通信
+服务端：
+public class EchoServer {
+    // ...
+
+    private void handleClient(Socket socket) throws IOException {
+        InputStream in = socket.getInputStream();
+        OutputStream out = socket.getOutputStream();
+        byte[] buffer = new byte[1024];
+        int n;
+        while ((n = in.read(buffer)) > 0) {
+            out.write(buffer, 0, n);
+        }
+    }
+}
+客户端：
+public class EchoClient {
+    // ...
+
+    public void run() throws IOException {
+        Thread readerThread = new Thread(this::readResponse);
+        readerThread.start();
+
+        OutputStream out = mSocket.getOutputStream();
+        byte[] buffer = new byte[1024];
+        int n;
+        while ((n = System.in.read(buffer)) > 0) {
+            out.write(buffer, 0, n);
+        }
+    }
+
+    private void readResponse() {
+        try {
+            InputStream in = mSocket.getInputStream();
+            byte[] buffer = new byte[1024];
+            int n;
+            while ((n = in.read(buffer)) > 0) {
+                System.out.write(buffer, 0, n);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+

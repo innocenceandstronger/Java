@@ -1,0 +1,82 @@
+//服务端
+public class Server{
+public static void main(String[] args) {
+        //创建端口3500的服务器socket
+        ServerSocket ss = null;
+        try {
+            ss = new ServerSocket(3500);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+ //防止客户端断开之后服务端程序挂掉
+        while (ss != null) {
+            try {
+                //在返回客户端socket之前，accept将会一直阻塞
+                Socket s = ss.accept();//接收客户端的连接
+                // 将请求指定一个线程去执行
+                Thread start = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(s.getOutputStream()));
+                            BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
+                            int i = 0;
+                            logger.debug("客户端已链接");
+                            while (true) {
+                                //发送信息时，需要加上换行符，否则客户端的readline()会阻塞
+                                wr.write("服务器返回消息成功[" + i++ + "]\n");
+                                //使用flush方法可以立即清空buffer，让消息马上发出去，否则在buffer满之前消息都不会发出去
+                                wr.flush();
+                                String line = br.readLine();
+                                logger.debug("来自客户端的数据：==" +line);
+ 
+                            }
+                        } catch (Exception e) {
+//                            e.printStackTrace();
+                            logger.debug("客户端已断开");
+                        }
+                    }
+                });
+                start.start();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+ 
+}
+//客户端
+ 
+ 
+public class Client {
+ 
+    public static void main(String[] args) {
+        try {
+             Socket socket = new Socket("127.0.0.1", 3500);
+//            Socket socket = new Socket("120.24.220.136", 3500);
+            socket.setKeepAlive(true);
+//            socket.setSoTimeout(10);
+            BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+            BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            int i = 0;
+            boolean isOnline = true;
+            while (isOnline) {
+                //发送信息时，需要加上换行符，否则服务器端的readline()会阻塞
+                wr.write("你好，您收到客户端的新年祝福[" + i++ + "]\n");
+                //使用flush方法可以立即清空buffer，让消息马上发出去，否则在buffer满之前消息都不会发出去
+                wr.flush();
+//                 socket.sendUrgentData(0xFF); // 发送心跳包  
+                System.out.println("目前处于链接状态！");
+ 
+                System.out.println("------------我是分割线------------");
+                String line = br.readLine();
+                System.out.println("来自服务器的数据：" + line);
+                Thread.sleep(1000);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+}
+
+

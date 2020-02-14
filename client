@@ -1,0 +1,44 @@
+package tcp;
+ 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.Scanner;
+ 
+public class TcpClient {
+ 
+	public static void main(String[] args) throws UnknownHostException, IOException {
+		// TODO Auto-generated method stub
+		System.out.println("客户端运行！");
+//		连接服务端的ip和端口
+		Socket socket=new Socket("192.168.138.1",1111);
+		OutputStream outPutStream=socket.getOutputStream();
+		Scanner scanner=new Scanner(System.in);
+		try {
+			while (true) {
+//				获得socket中的io流
+					System.out.println("向服务端发送信息：");
+					if(scanner.hasNext()) {
+					String strNext=scanner.next();
+					outPutStream.write(strNext.getBytes());
+					}
+//				    io流中只能传输字节
+//					收到服务器端回复的内容
+					InputStream inputStream=socket.getInputStream();
+					byte[] buf=new byte[1024];
+					int len =inputStream.read(buf);
+										String str=new String(buf,0,len);
+					System.out.println("服务器回复内容："+str);
+			}
+		} finally {
+			// TODO: handle finally clause
+			//关闭连接
+			socket.close();
+		}
+ 
+		
+	}
+ 
+}

@@ -1,0 +1,44 @@
+package tcp;
+ 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+ 
+import java.util.Scanner;
+public class TcpService {
+ 
+	public static void main(String[] args) throws IOException {
+		// TODO Auto-generated method stub
+		System.out.println("服务器运行！");
+//		创建连接端口
+		ServerSocket serverSockert=new ServerSocket(1111);
+		Socket accept = serverSockert.accept();
+		try {
+			while(true) {
+//				获取与客户端的连接
+				String ip=accept.getInetAddress().getHostAddress();
+				System.out.println("ip:"+ip);
+				InputStream inputStream = accept.getInputStream();
+				byte[] buf=new byte[1024];
+				int len =inputStream.read(buf);
+				String str=new String(buf,0,len);
+				System.out.println(str);
+//				回复给客户端信息
+					OutputStream outPutStream=accept.getOutputStream();
+					Scanner scanner=new Scanner(System.in);
+					System.out.println("向客户端发送信息：");
+					if(scanner.hasNext()) {
+					String strNext=scanner.next();
+					outPutStream.write(strNext.getBytes());
+					}
+			}
+		} finally {
+			// TODO: handle finally clause
+//			关闭连接
+			accept.close();
+			serverSockert.close();
+		}
+   } 
+}

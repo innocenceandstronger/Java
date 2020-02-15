@@ -1,0 +1,38 @@
+import java.util.Stack;
+public class StackToQueue {
+	Stack<Integer> stack1 = new Stack<>();
+	Stack<Integer> stack2 = new Stack<>();
+	public void push(int node) {
+        stack1.push(node);
+    }
+ 
+    public int pop() {
+        if(stack2.isEmpty()){
+            while(!stack1.isEmpty()){                         
+                stack2.push(stack1.pop());
+            }
+        }
+ 
+        if(stack2.isEmpty()){
+            try {
+                throw new Exception("queue is empty.");
+            } catch (Exception e) {
+            }
+        }
+        return stack2.pop();
+ 
+    }
+    public static void main(String[] args) {
+        StackToQueue s1 = new StackToQueue();
+        s1.push(1);
+        s1.push(2);
+        s1.push(3);
+        s1.push(4);
+        System.out.println(s1.pop());
+        System.out.println(s1.pop());
+        s1.push(5);
+        System.out.println(s1.pop());
+        System.out.println(s1.pop());
+        System.out.println(s1.pop());
+    }
+}

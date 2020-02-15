@@ -1,0 +1,127 @@
+class Calculate {
+    //获取字符优先级：乘除优先于加减
+    private static int getPriority(char value) {
+        int result = 0;
+        switch (value) {
+            case '+':
+            case '-':
+                result = 1;
+                break;
+            case '*':
+            case '/':
+                result = 2;
+                break;
+        }
+        return result;
+    }
+
+    //加减乘除运算
+    private static int operator(int item1, int item2, char operate) {
+        int result = 0;
+        switch (operate) {
+            case '+':
+                result = item2 + item1;
+                break;
+            case '-':
+                result = item2 - item1;
+                break;
+            case '*':
+                result = item2 * item1;
+                break;
+            case '/':
+                result = item2 / item1;
+                break;
+        }
+        return result;
+    }
+    //中缀表达式转后缀表达式
+    public static String infixToPostfix(String str) {  //9+(3-1)*3+10/2
+        String result = "";//返回最终结果
+        String split = " ";//空格分隔，用来区分数字的位数问题（可能存在多位情况）
+        boolean flag = false;//以空格对数据进行分割
+        Stack<Character> stack = new Stack<>();//Character类型的stack栈用于存放字符
+        for (int i = 0; i < str.length(); i++) {
+            char value = str.charAt(i);//获得str字符串中的每个字符
+            if(value>='0'&&value<='9'){
+                result+=value;
+                flag=true;
+            }else if(value==')'){//如果是'('，则下一位必然为字符，故无需判断flag
+                while (!(stack.peek()=='(')) {
+                    result+=stack.pop();
+                }
+                stack.pop();
+            }else{//其他字符
+                if(flag==true){
+                    result+=split;//以空格分隔数字与字符
+                    flag=false;
+                }
+                //若栈空或运算符为'('，直接入栈
+                if (stack.isEmpty()||value=='(') {
+                    stack.push(value);
+                    continue;
+                }
+                //否则判断优先级后进行相关操作
+                //将优先级高的运算符直接入栈
+                if (getPriority(stack.peek()) < getPriority(value)) {
+                    stack.push(value);
+                } else {//遇到栈顶符号比当前符号优先级高时，一直出栈直至当前符号优先级最高即可
+                    while (!stack.isEmpty() && getPriority(stack.peek()) >= getPriority(value)) {
+                        result += stack.peek();
+                        stack.pop();
+                    }
+                    //将当前符号入栈操作
+                    stack.push(value);
+                }
+            }
+        }
+        while (!stack.isEmpty()) {
+            result += stack.peek();
+            stack.pop();
+        }
+        return result;
+    }
+    //后缀表达式计算结果
+    public static int cal(String str) {
+        str=infixToPostfix(str);
+        Stack<Integer> stack = new Stack<>();//Integer类型的stack栈用于存放数字
+        for (int i = 0; i < str.length(); ) {
+            String subNumber = "";//保存数字
+            char value = str.charAt(i);
+            if (value == ' ') {
+                i++;
+                continue;
+            }
+            if (value >= '0' && value <= '9') {
+                while (value >= '0' && value <= '9') {//判断两位数或以上数字
+                    subNumber += value;
+                    i++;
+                    value = str.charAt(i);//当前字符
+                }
+                stack.push(Integer.valueOf(subNumber));
+                if(value==' '){
+                    i++;
+                }
+            } else {
+                int item1 = stack.pop();
+                int item2 = stack.pop();
+                int result=operator(item1,item2,value);
+                stack.push(result);
+                i++;
+            }
+        }
+        return stack.pop();
+    }
+}
+public class Calculater {
+    public static void main(String[] args) {
+        Calculate c=new Calculate();
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println("请输入要计算的表达式：");
+            String str = scanner.next();
+            int result = c.cal(str);
+//            System.out.println(c.infixToPostfix(str));
+            System.out.println("计算结果：" + result);
+        }
+    }
+}

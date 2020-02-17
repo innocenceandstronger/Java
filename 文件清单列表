@@ -1,0 +1,63 @@
+public class Test {
+
+ /**
+  * 功能：建立一个指定扩展名的文件的列表
+  * 获取指定目录下，指定扩展名的文件（包含子目录中的文件），将这些文件的绝对路径写入到一个文本文件中
+  * 思路：
+  *   1、深度遍历文件，将指定后缀名的文件遍历出来，然后将文件对象存入到list中
+  *   2、对list中的内容进行遍历并将绝对路径写入到文件中
+  */
+ public static void main(String[] args) {
+  String path="F:"+File.separator+"eclipse_workspace";
+  File file = new File(path);
+  FilenameFilter filenameFilter = new FilenameFilter() {
+   @Override
+   public boolean accept(File dir, String name) {
+    return name.endsWith(".java");
+   }
+  };
+  List<File> linkedList = new LinkedList<File>();
+  getFilesList(file,filenameFilter,linkedList);
+  File destFile = new File(file, "文件列表.txt");
+  writeFile(linkedList, destFile);
+  
+ }
+ 
+ //第一步:深度遍历文件，将指定后缀名的文件遍历出来，然后将文件对象存入到list中
+ public static void getFilesList(File file,FilenameFilter filter, List<File> list){
+  File[] files=file.listFiles();
+  if(!"".equals(files) && files!=null){
+   for(File f:files){
+    if(f.isDirectory()){
+     getFilesList(f, filter, list);
+    }else{
+     if(filter.accept(file, f.getName())){
+      list.add(f);
+     }
+    }
+   }
+  }
+ }
+ 
+ //第二步：对list中的内容进行遍历并将绝对路径写入到文件中
+ public static void writeFile(List<File> list, File file){
+  BufferedWriter bufw=null;
+  try{
+   bufw=new BufferedWriter(new FileWriter(file));
+   for(File ff:list){
+    bufw.write(ff.getAbsolutePath());
+    bufw.newLine();
+    bufw.flush();
+   }
+  }catch(IOException e){
+   throw new RuntimeException("写入失败");
+  }finally{
+   if(bufw!=null){
+    try{
+     bufw.close();
+    }catch(IOException e){
+     throw new RuntimeException("流关闭失败");
+    }
+   }
+  }
+ }

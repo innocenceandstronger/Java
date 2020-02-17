@@ -1,0 +1,18 @@
+public class Test {
+
+ /**
+  * @param args
+  * @throws IOException
+  */
+ public static void main(String[] args) throws IOException {
+  BufferedInputStream fi=new BufferedInputStream(new FileInputStream("config.properties"));
+  BufferedOutputStream fo=new BufferedOutputStream(new FileOutputStream("test.properties"));
+  int len=0;
+  while((len=fi.read())!=-1){
+   fo.write(len);
+  }
+  fo.close();
+  fi.close();
+ }
+
+}

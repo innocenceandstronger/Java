@@ -1,0 +1,43 @@
+public class Test {
+
+ /**
+  * 最高效率读写媒体文件，只能使用buffered字节流，因为使用字符流的话，读取的时候还是先独到字节，再根据unicode码表去找对应的字符，
+  * 找不到的就会随便用一个字符代替，这样就会乱码
+  */
+ public static void main(String[] args) {
+  String picPath="D:"+File.separator+"Pictures"+File.separator+"个人照片"+File.separator+"DSCF4505A.jpg";
+  String newPath="D:"+File.separator+"gm"+File.separator+"gtm"+File.separator+"123.jpg";
+  BufferedInputStream bufferedInputStream = null;
+  BufferedOutputStream bufferedOutputStream = null;
+  try {
+   bufferedInputStream=new BufferedInputStream(new FileInputStream(picPath));
+   bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(newPath));
+   int len=0;
+//   byte[] b=new byte[1024]; 不需要使用,因为缓冲流自带缓冲区，也就是这个字节数组
+   try {
+    while((len=bufferedInputStream.read())!=-1){
+     bufferedOutputStream.write(len);
+    }
+   } catch (IOException e) {
+    e.printStackTrace();
+   }
+  } catch (FileNotFoundException e) {
+   e.printStackTrace();
+  }finally{
+   if(bufferedOutputStream!=null){
+    try {
+     bufferedOutputStream.close();
+    } catch (IOException e) {
+     e.printStackTrace();
+    }
+   }
+   if(bufferedInputStream!=null){
+    try{
+    bufferedInputStream.close();
+    }catch(IOException e){
+     e.printStackTrace();
+    }
+   }
+  }
+  
+ }

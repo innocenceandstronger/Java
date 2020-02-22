@@ -1,0 +1,40 @@
+public class ThreadDemo1 {
+    //------------------------------------------------------------
+    private static class MyThread extends Thread {
+        @Override
+        public void run() {
+            while (true) {
+                System.out.println("我在 method2 中打印");
+                // 进程会暂停运行 1 秒
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    private static void method2() {
+        Thread thread = new MyThread();
+        thread.start();//使线程开始
+    }//两条虚线之间是用多线程实现的打印
+    //------------------------------------------------------------
+    private static void method1() throws InterruptedException {
+        while (true) {
+            System.out.println("我在 method1 中打印");
+            // 进程会暂停运行 1 秒
+            Thread.sleep(1000);
+        }
+    }
+    public static void main(String[] args) throws InterruptedException {
+        //method1，method2和下面的"我在main中打印"都是死循环，和虚线中对比就是说明下面这个道理
+        method1();//若先执行的是没有用线程写的死循环那么就会一直执行该方法，
+                  // 导致之后的方法无法执行，而用多线程写的死循环则不会出现这种问题
+        method2();// "两个死循环可以同时开始执行，没有一个卡住另一个的情况"
+        while (true) {
+            System.out.println("我在 main 中打印");
+            // 进程会暂停运行 1 秒
+            Thread.sleep(1000);
+        }
+    }
+}
